@@ -1,5 +1,3 @@
-Absolutely, Hunter! Here’s a professional **README** you can use for your GitHub repository for the StudyCare AI Chatbot project:
-
 ---
 
 # StudyCare • AI Chatbot
@@ -116,6 +114,7 @@ This project is **MIT Licensed** – see the [LICENSE](LICENSE) file for details
 **Email:** [hunter@example.com](Ayushagnihotri964@gmail.com)
 **Live Demo:** https://studycarechatbot.netlify.app/
 ---
+
 
 
 
