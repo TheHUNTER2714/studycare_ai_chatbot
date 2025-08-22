@@ -114,9 +114,9 @@ This project is **MIT Licensed** – see the [LICENSE](LICENSE) file for details
 **Author:** Hunter (Ayush Agnihotri)
 **GitHub:** [https://github.com/TheHUNTER2714](https://github.com/TheHUNTER2714)
 **Email:** [hunter@example.com](Ayushagnihotri964@gmail.com)
-Live Demo: (studycarechatbot.netlify.app)
-
+**Live Demo:** https://studycarechatbot.netlify.app/
 ---
+
 
 
 
