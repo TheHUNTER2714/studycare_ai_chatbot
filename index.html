@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StudyCare • AI Chatbot</title>
+  <meta name="color-scheme" content="dark light">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* ---------- Global Animations ---------- */
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .animate-gradient {
+      background-size: 400% 400%;
+      animation: gradientMove 16s ease-in-out infinite;
+    }
+    @keyframes floatSlow {
+      0%   { transform: translateY(0) translateX(0) scale(1); }
+      50%  { transform: translateY(-20px) translateX(10px) scale(1.03); }
+      100% { transform: translateY(0) translateX(0) scale(1); }
+    }
+    @keyframes floatSlow2 {
+      0%   { transform: translateY(0) translateX(0) scale(1); }
+      50%  { transform: translateY(16px) translateX(-8px) scale(0.98); }
+      100% { transform: translateY(0) translateX(0) scale(1); }
+    }
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 100% 50%; }
+    }
+    .shimmer-text {
+      background-image: linear-gradient(90deg,#101010 0%,#131313 20%,#0c4adb 40%,#3c0707 60%);
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shimmer 6s linear infinite;
+      filter: drop-shadow(0 2px 18px rgba(255,255,255,.25));
+    }
+    /* typing for subtitle */
+    .typing-text {
+      overflow: hidden;
+      border-right: 3px solid rgba(21, 20, 20, 0.85);
+      white-space: nowrap;
+      width: 0;
+      animation: typing 4.2s steps(44, end) forwards, blink .8s step-end infinite;
+    }
+    @keyframes typing {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+    @keyframes blink { 50% { border-color: transparent; } }
+
+    /* slide-ins for bubbles */
+    @keyframes slideInRight {
+      0% { opacity: 0; transform: translateX(24px) translateY(6px) scale(.98); }
+      100% { opacity: 1; transform: translateX(0) translateY(0) scale(1); }
+    }
+    @keyframes slideInLeft {
+      0% { opacity: 0; transform: translateX(-24px) translateY(6px) scale(.98); }
+      100% { opacity: 1; transform: translateX(0) translateY(0) scale(1); }
+    }
+    .in-right { animation: slideInRight .35s ease-out both; }
+    .in-left  { animation: slideInLeft  .35s ease-out both; }
+
+    /* ripple hover for CTA */
+    .btn-ripple {
+      position: relative;
+      overflow: hidden;
+      transition: transform .25s ease, filter .25s ease;
+    }
+    .btn-ripple:after {
+      content: "";
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at var(--x,50%) var(--y,50%), rgba(255,255,255,.35), rgba(255,255,255,0) 45%);
+      opacity: 0; transition: opacity .35s ease;
+    }
+    .btn-ripple:hover { transform: translateY(-2px) scale(1.02); filter: brightness(1.05); }
+    .btn-ripple:hover:after { opacity: 1; }
+
+    /* animated diagonal lines backdrop (subtle) */
+    .lines:before, .lines:after {
+      content:"";
+      position:absolute; inset:-30%;
+      background-image: repeating-linear-gradient(135deg, rgba(255,255,255,.06) 0px, rgba(255,255,255,.06) 2px, transparent 2px, transparent 28px);
+      animation: linesMove 30s linear infinite;
+      pointer-events:none;
+    }
+    .lines:after { animation-duration: 50s; opacity:.6; filter: blur(1px); }
+    @keyframes linesMove { from { transform: translateX(0); } to { transform: translateX(10%); } }
+
+    /* particles for chat area */
+    .particles::before {
+      content:"";
+      position:absolute; inset:0; pointer-events:none;
+      background-image:
+        radial-gradient(circle 2px, rgba(239, 134, 6, 0.2) 99%, transparent 100%),
+        radial-gradient(circle 2px, rgba(22, 22, 22, 0.15) 99%, transparent 100%),
+        radial-gradient(circle 2px, rgba(13, 17, 244, 0.1) 99%, transparent 100%);
+      background-repeat: repeat;
+      background-size: 120px 120px, 180px 180px, 240px 240px;
+      animation: particles 40s linear infinite;
+    }
+    @keyframes particles {
+      0% { background-position: 0 0, 0 0, 0 0; }
+      100% { background-position: 120px 240px, -180px 180px, 240px -240px; }
+    }
+
+    /* soft aura for gif */
+    .gif-aura {
+      position: relative;
+    }
+    .gif-aura:after {
+      content:"";
+      position:absolute; inset:0;
+      background: radial-gradient(circle at center, rgba(255,255,255,.25), transparent 60%);
+      pointer-events:none;
+    }
+  </style>
+</head>
+<body class="min-h-screen w-screen relative overflow-hidden flex items-center justify-center lines bg-gradient-to-br from-indigo-600 via-fuchsia-600 to-pink-500 animate-gradient">
+
+  <!-- Floating gradient orbs -->
+  <div class="pointer-events-none absolute -top-24 -left-24 w-72 h-72 rounded-full bg-gradient-to-tr from-fuchsia-400 to-indigo-400 blur-3xl opacity-50"
+       style="animation: floatSlow 10s ease-in-out infinite;"></div>
+  <div class="pointer-events-none absolute bottom-[-6rem] right-[-6rem] w-96 h-96 rounded-full bg-gradient-to-tr from-sky-400 to-violet-500 blur-3xl opacity-40"
+       style="animation: floatSlow2 12s ease-in-out infinite;"></div>
+
+  <!-- WELCOME / LANDING -->
+  <section id="welcome-screen" class="relative z-10 w-full max-w-3xl px-6">
+    <div class="mx-auto text-center rounded-3xl p-8 md:p-10 bg-white/10 backdrop-blur-2xl border border-white/20 shadow-[0_10px_60px_rgba(0,0,0,.25)]">
+      <!-- Symbol -->
+      <div class="mx-auto w-28 h-28 rounded-full overflow-hidden shadow-xl ring-2 ring-white/40 mb-5 gif-aura">
+        <img src="https://victor-palha.com/assets/Chatbot-659a8e95.gif" alt="Chatbot" class="w-full h-full object-cover" />
+      </div>
+
+      <!-- Title -->
+      <h1 class="text-4xl md:text-5xl font-extrabold shimmer-text leading-tight">
+        Welcome to StudyCare
+      </h1>
+
+      <!-- Subtitle typing -->
+      <p class="typing-text mx-auto mt-3 text-white/95 text-lg md:text-xl max-w-xl">
+        Your emotional support companion for academic success
+      </p>
+
+      <!-- CTA -->
+      <button id="start-button"
+        class="btn-ripple mt-7 inline-flex items-center gap-2 rounded-full px-8 py-3 text-lg font-semibold text-blue
+               bg-gradient-to-r from-pink-500 via-fuchsia-500 to-indigo-500 shadow-lg hover:shadow-xl">
+        <span>Start Chatting</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+        </svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- CHAT UI -->
+  <section id="main-container" class="hidden relative z-10 w-[95%] max-w-4xl h-[80vh] flex-col rounded-3xl overflow-hidden bg-white/15 backdrop-blur-xl border border-white/20 shadow-[0_10px_60px_rgba(0,0,0,.35)]">
+    <!-- Header -->
+    <header class="flex items-center justify-between px-5 py-3 bg-gradient-to-r from-indigo-700 to-fuchsia-700 text-white">
+      <button id="back-button" class="px-3 py-1 rounded-md bg-white/15 hover:bg-white/25 transition">← Back</button>
+      <div class="text-xl font-bold shimmer-text">StudyCare</div>
+      <div id="ai-emoji" class="text-2xl">🤖</div>
+    </header>
+
+    <!-- Chat Body -->
+    <div id="chat-body" class="relative flex-1 p-4 overflow-y-auto space-y-3 bg-center bg-no-repeat bg-contain particles"
+         style="background-image:url('chatbot.gif')">
+    </div>
+
+    <!-- Footer -->
+    <footer class="flex items-center gap-2 p-2 bg-white/10 border-t border-white/20">
+      <input id="user-input" type="text" placeholder="Type your message..."
+        class="flex-1 px-4 py-3 rounded-xl bg-white/10 text-white placeholder-white/60 outline-none focus:bg-white/15 transition" />
+      <button id="send-btn"
+        class="btn-ripple px-5 py-3 rounded-xl bg-gradient-to-r from-pink-500 to-indigo-500 font-semibold text-white hover:shadow-lg">
+        Send
+      </button>
+    </footer>
+  </section>
+
+  <script>
+    /* ---------- Screen toggles ---------- */
+    const welcome = document.getElementById('welcome-screen');
+    const chat = document.getElementById('main-container');
+    const chatBody = document.getElementById('chat-body');
+    const userInput = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    const emoji = document.getElementById('ai-emoji');
+
+    document.getElementById('start-button').addEventListener('mousemove', e => {
+      const rect = e.currentTarget.getBoundingClientRect();
+      e.currentTarget.style.setProperty('--x', `${e.clientX - rect.left}px`);
+      e.currentTarget.style.setProperty('--y', `${e.clientY - rect.top}px`);
+    });
+
+    document.getElementById('start-button').addEventListener('click', () => {
+      welcome.classList.add('hidden');
+      chat.classList.remove('hidden');
+      chat.classList.add('flex');
+      userInput.focus();
+    });
+
+    document.getElementById('back-button').addEventListener('click', () => {
+      chat.classList.add('hidden');
+      chat.classList.remove('flex');
+      welcome.classList.remove('hidden');
+    });
+
+    /* ---------- Bubble helpers ---------- */
+    const addUserMessage = (text) => {
+      const el = document.createElement('div');
+      el.className = 'in-right ml-auto max-w-[75%] bg-gradient-to-r from-indigo-500 to-fuchsia-600 text-white px-4 py-2 rounded-2xl shadow-lg';
+      el.textContent = text;
+      chatBody.appendChild(el);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    };
+    const addBotMessage = (text) => {
+      const el = document.createElement('div');
+      el.className = 'in-left mr-auto max-w-[75%] bg-white/20 text-white px-4 py-2 rounded-2xl shadow-lg ring-1 ring-white/10';
+      el.textContent = text;
+      chatBody.appendChild(el);
+      chatBody.scrollTop = chatBody.scrollHeight;
+    };
+
+    function bounceEmoji() {
+      emoji.classList.add('animate-bounce');
+      setTimeout(() => emoji.classList.remove('animate-bounce'), 600);
+    }
+    function updateEmoji(reply) {
+      let next = "😀";
+      if (/sorry|sad|couldn’t|can't|cannot|error/i.test(reply)) next = "😢";
+      else if (/think|maybe|hmm|consider|ponder/i.test(reply)) next = "🤔";
+      else if (/great|awesome|nice|glad|perfect|love/i.test(reply)) next = "😄";
+      emoji.textContent = next;
+      bounceEmoji();
+    }
+
+    /* ---------- Send logic ---------- */
+    async function sendMessage() {
+      const message = userInput.value.trim();
+      if (!message) return;
+      addUserMessage(message);
+      userInput.value = "";
+      addBotMessage("Thinking...");
+      updateEmoji("thinking");
+
+      try {
+        const res = await fetch("http://localhost:5000/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message })
+        });
+        const data = await res.json();
+        chatBody.lastChild.textContent = data.reply || "I couldn’t think of a response right now.";
+        updateEmoji(chatBody.lastChild.textContent);
+      } catch (err) {
+        chatBody.lastChild.textContent = "Sorry, I couldn’t connect to the AI server.";
+        updateEmoji("sorry");
+        console.error(err);
+      }
+    }
+
+    sendBtn.addEventListener('click', sendMessage);
+    userInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') sendMessage();
+    });
+  </script>
+</body>
+</html>
