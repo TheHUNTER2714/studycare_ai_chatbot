@@ -24,7 +24,7 @@ StudyCare is an **AI-powered chatbot** designed to provide emotional and academi
 ## 🖥️ Screenshots
 
 **Landing Screen:**
-![Landing]()
+![Landing](Screenshot_22-8-2025_163121_studycarechatbot.netlify.app.jpeg)
 
 **Chat Screen:**
 ![Chat](https://user-images.githubusercontent.com/your-username/chat-screenshot.png) *(Replace with your screenshot)*
@@ -120,5 +120,6 @@ This project is **MIT Licensed** – see the [LICENSE](LICENSE) file for details
 If you want, I can also create a **more visually appealing GitHub README** with **badges, GIF previews, and live demo links**, which makes your project look professional for hackathons or portfolio.
 
 Do you want me to do that?
+
 
 
